@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TennisExplore</title>
+  <style>
+    :root {
+      --bg: #050505;
+      --panel: #0d0f12;
+      --panel-2: #12151a;
+      --border: #23262d;
+      --text: #f3f5f7;
+      --muted: #a4acb8;
+      --green: #9dfc4f;
+      --green-dark: #1f2e12;
+      --chip: #1a1e24;
+      --input: #0b0d10;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(157, 252, 79, 0.08), transparent 22%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 28px 20px 40px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 44px;
+      line-height: 1.05;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p {
+      margin: 10px auto 0;
+      max-width: 620px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .chat-shell {
+      max-width: 760px;
+      margin: 0 auto;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .chat-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.015);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: var(--green);
+      box-shadow: 0 0 0 4px rgba(157, 252, 79, 0.14);
+      flex-shrink: 0;
+    }
+
+    .chat-header-title {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .chat-header-subtitle {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .messages {
+      padding: 18px;
+      max-height: 68vh;
+      overflow-y: auto;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+    }
+
+    .message {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 18px;
+      align-items: flex-start;
+    }
+
+    .message.user {
+      flex-direction: row-reverse;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .avatar.assistant {
+      background: rgba(157, 252, 79, 0.14);
+      color: var(--green);
+      border: 1px solid rgba(157, 252, 79, 0.25);
+    }
+
+    .avatar.user {
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .bubble {
+      max-width: calc(100% - 60px);
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 15px;
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .user .bubble {
+      background: #14171d;
+    }
+
+    .bubble p {
+      margin: 0 0 10px;
+    }
+
+    .bubble p:last-child {
+      margin-bottom: 0;
+    }
+
+    .welcome-text {
+      color: #d8dde5;
+      margin-bottom: 12px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .chip {
+      border: 1px solid #324126;
+      background: var(--green-dark);
+      color: #e7ffd4;
+      padding: 10px 13px;
+      border-radius: 999px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: 0.18s ease;
+    }
+
+    .chip:hover {
+      transform: translateY(-1px);
+      border-color: #496732;
+      background: #27391a;
+    }
+
+    .answer-grid {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .answer-card {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 13px;
+    }
+
+    .answer-card h4 {
+      margin: 0 0 6px;
+      font-size: 12px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--green);
+    }
+
+    .answer-card p {
+      margin: 0;
+      color: #e4e8ee;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .visual-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .visual-card {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .visual-card img {
+      width: 100%;
+      height: 145px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .visual-caption {
+      padding: 9px 10px;
+    }
+
+    .visual-caption strong {
+      display: block;
+      font-size: 12px;
+      color: var(--green);
+      margin-bottom: 4px;
+    }
+
+    .visual-caption p {
+      margin: 0;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    @media (max-width: 640px) {
+      .visual-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .visual-card img {
+        height: 210px;
+      }
+    }
+
+
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .meta-pill {
+      background: var(--chip);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .sources {
+      margin-top: 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .source-item {
+      background: #0f1217;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+
+    .source-file {
+      font-size: 12px;
+      color: #dfe4ea;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .source-preview {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .composer {
+      border-top: 1px solid var(--border);
+      padding: 14px;
+      background: rgba(255,255,255,0.015);
+    }
+
+        /* 🔥 ADD THIS */
+    .upload-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .upload-row input {
+      flex: 1;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .upload-btn {
+      border: 1px solid #324126;
+      background: var(--green-dark);
+      color: #e7ffd4;
+      padding: 9px 13px;
+      border-radius: 999px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .composer-inner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--border);
+      background: var(--input);
+      border-radius: 999px;
+      padding: 8px 10px 8px 14px;
+    }
+
+    .composer input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .composer input::placeholder {
+      color: #7f8793;
+    }
+
+    .send-btn {
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 999px;
+      background: var(--green);
+      color: #111;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.18s ease;
+    }
+
+    .send-btn:hover {
+      transform: scale(1.03);
+    }
+
+    .send-btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .typing {
+      color: var(--muted);
+      font-style: italic;
+      font-size: 13px;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #7f8793;
+      font-size: 12px;
+      margin-top: 14px;
+    }
+    .markdown-answer {
+      line-height: 1.75;
+      font-size: 14px;
+      color: #e6eaf0;
+    }
+
+    .markdown-answer h1,
+    .markdown-answer h2,
+    .markdown-answer h3 {
+      margin: 18px 0 8px;
+      line-height: 1.3;
+    }
+
+    .markdown-answer h2 {
+      font-size: 18px;
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+    }
+
+    .markdown-answer h3 {
+      font-size: 15px;
+      color: var(--green);
+    }
+
+    .markdown-answer ul {
+      margin: 8px 0 12px 20px;
+      padding: 0;
+    }
+
+    .markdown-answer li {
+      margin: 6px 0;
+    }
+
+    .markdown-answer strong {
+      color: #ffffff;
+    }
+
+    .details-toggle {
+      margin-top: 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .details-toggle summary {
+      cursor: pointer;
+      padding: 10px 12px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 700;
+      background: #101318;
+    }
+    @media (max-width: 640px) {
+      .hero h1 {
+        font-size: 34px;
+      }
+
+      .bubble {
+        max-width: calc(100% - 48px);
+      }
+
+      .chips {
+        gap: 8px;
+      }
+
+      .chip {
+        width: 100%;
+        border-radius: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="hero">
+      <h1>Explore Our Data</h1>
+      <p>
+        Use natural language to query our tennis knowledge base. No complex dashboards,
+        just grounded coaching insights.
+      </p>
+    </div>
+
+    <div class="chat-shell">
+      <div class="chat-header">
+        <div class="logo-dot"></div>
+        <div>
+          <div class="chat-header-title">TennisExplore Assistant</div>
+          <div class="chat-header-subtitle">Hybrid insights from reports, research, and match data</div>
+        </div>
+      </div>
+
+      <div class="messages" id="messages">
+        <div class="message assistant">
+          <div class="avatar assistant">●</div>
+          <div class="bubble">
+            <div class="welcome-text">
+              Hello! I’m the TennisExplore assistant. I can help you find insights from
+              coaching reports, journal articles, and match data. Here are a few examples to start with:
+            </div>
+            <div class="chips">
+              <button class="chip" onclick="fillAndAsk('Summarise the presentation on Optimizing Nutrition for Tournament Play.')">
+                Summarise the presentation on Optimizing Nutrition for Tournament Play.
+              </button>
+              <button class="chip" onclick="fillAndAsk('What does the study say about tennis performance?')">
+                What does the study say about tennis performance?
+              </button>
+              <button class="chip" onclick="fillAndAsk('What weaknesses are shown in the study?')">
+                What weaknesses are shown in the study?
+              </button>
+              <button class="chip" onclick="fillAndAsk('What are Nadal\'s weaknesses based on reports?')">
+                What are Nadal's weaknesses based on reports?
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="composer">
+        <!-- 🔥 ADD FILE UPLOAD HERE -->
+        <div class="upload-row">
+          <input
+            id="fileInput"
+            type="file"
+            accept=".pdf,.txt,.docx,.pptx,.xlsx,.xls,.csv,.jpg,.jpeg,.png"
+          />
+          
+        </div>
+        <!-- EXISTING CHAT INPUT (UNCHANGED) -->
+        <div class="composer-inner">
+          <input
+            id="questionInput"
+            type="text"
+            placeholder="Ask a question..."
+            autocomplete="off"
+          />
+          <button class="send-btn" id="sendBtn" onclick="askQuestion()">➜</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      Answers are grounded in the uploaded data and retrieved evidence.
+    </div>
+  </div>
+
+  <script>
+    const messagesEl = document.getElementById("messages");
+    const questionInput = document.getElementById("questionInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+    function escapeHtml(str = "") {
+      return str
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function scrollToBottom() {
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function addUserMessage(text) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "message user";
+      wrapper.innerHTML = `
+        <div class="avatar user">You</div>
+        <div class="bubble">
+          <p>${escapeHtml(text)}</p>
+        </div>
+      `;
+      messagesEl.appendChild(wrapper);
+      scrollToBottom();
+    }
+
+    function addTypingMessage() {
+      const wrapper = document.createElement("div");
+      wrapper.className = "message assistant";
+      wrapper.id = "typingMessage";
+      wrapper.innerHTML = `
+        <div class="avatar assistant">●</div>
+        <div class="bubble">
+          <div class="typing">Thinking...</div>
+        </div>
+      `;
+      messagesEl.appendChild(wrapper);
+      scrollToBottom();
+    }
+
+    function removeTypingMessage() {
+      const el = document.getElementById("typingMessage");
+      if (el) el.remove();
+    }
+
+    function renderSources(sources = []) {
+      if (!sources.length) return "";
+
+      const sourceHtml = sources
+        .map(
+          (source) => `
+            <div class="source-item">
+              <div class="source-file">${escapeHtml(source.file || "unknown")}</div>
+              <div class="source-preview">
+                Similarity score: ${typeof source.score === "number" ? source.score.toFixed(3) : source.score}
+              </div>
+            </div>
+          `
+        )
+        .join("");
+
+      return `
+        <div class="sources">
+          ${sourceHtml}
+        </div>
+      `;
+    }
+
+    function renderTopChunks(topChunks = []) {
+      if (!topChunks.length) return "";
+
+      const chunkHtml = topChunks
+        .map(
+          (chunk) => `
+            <div class="source-item">
+              <div class="source-file">${escapeHtml(chunk.file || "unknown")}</div>
+              <div class="source-preview">${escapeHtml(chunk.preview || "")}</div>
+            </div>
+          `
+        )
+        .join("");
+
+      return `
+        <div class="sources">
+          ${chunkHtml}
+        </div>
+      `;
+    }
+
+    function renderVisuals(visuals = []) {
+      if (!visuals.length) return "";
+
+      const visualHtml = visuals
+        .map(
+          (img) => `
+            <div class="visual-card">
+              <img src="${escapeHtml(img.src || "")}" alt="${escapeHtml(img.title || "Tennis visual")}" />
+              <div class="visual-caption">
+                <strong>${escapeHtml(img.title || "Coaching visual")}</strong>
+                <p>${escapeHtml(img.caption || "")}</p>
+              </div>
+            </div>
+          `
+        )
+        .join("");
+
+      return `
+        <div class="visual-grid">
+          ${visualHtml}
+        </div>
+      `;
+    }  
+
+
+    function renderMarkdown(text = "") {
+      const safe = escapeHtml(text);
+
+      return safe
+        .replace(/^### (.*$)/gim, "<h3>$1</h3>")
+        .replace(/^## (.*$)/gim, "<h2>$1</h2>")
+        .replace(/^# (.*$)/gim, "<h1>$1</h1>")
+        .replace(/\*\*(.*?)\*\*/gim, "<strong>$1</strong>")
+        .replace(/^- (.*$)/gim, "<li>$1</li>")
+        .replace(/(<li>.*<\/li>)/gims, "<ul>$1</ul>")
+        .replace(/\n\n/g, "<br><br>")
+        .replace(/\n/g, "<br>");
+    }
+
+    function addAssistantMessage(data) {
+      const coaching = data.coaching_answer || null;
+      const workflow = data.workflow || "unknown";
+
+      let bodyHtml = "";
+
+      if (coaching && (coaching.insight || coaching.evidence || coaching.recommendation || coaching.confidence)) {
+        bodyHtml += `<div class="answer-grid">`;
+
+        if (coaching.insight) {
+          bodyHtml += `
+            <div class="answer-card">
+              <h4>Insight</h4>
+              <p>${escapeHtml(coaching.insight)}</p>
+            </div>
+          `;
+        }
+
+        if (coaching.evidence) {
+          bodyHtml += `
+            <div class="answer-card">
+              <h4>Evidence</h4>
+              <p>${escapeHtml(coaching.evidence)}</p>
+            </div>
+          `;
+        }
+
+        if (coaching.weakness_detected) {
+          bodyHtml += `
+            <div class="answer-card">
+              <h4>Weakness Detected</h4>
+              <p>${escapeHtml(coaching.weakness_detected)}</p>
+            </div>
+          `;
+        }
+
+        if (coaching.why_it_matters) {
+          bodyHtml += `
+            <div class="answer-card">
+              <h4>Why It Matters</h4>
+              <p>${escapeHtml(coaching.why_it_matters)}</p>
+            </div>
+          `;
+        }
+
+        if (coaching.recommendation) {
+          bodyHtml += `
+            <div class="answer-card">
+              <h4>Recommendation</h4>
+              <p>${escapeHtml(coaching.recommendation)}</p>
+            </div>
+          `;
+        }
+
+        if (coaching.confidence) {
+          bodyHtml += `
+            <div class="answer-card">
+              <h4>Confidence</h4>
+              <p>${escapeHtml(coaching.confidence)}</p>
+            </div>
+          `;
+        }
+
+        bodyHtml += `</div>`;
+      } else {
+        bodyHtml += `
+          <div class="markdown-answer">
+            ${renderMarkdown(data.answer || "Not found in data.")}
+          </div>
+  `;
+  }
+        // 🔥 ADD THIS LINE RIGHT HERE
+      bodyHtml += renderVisuals(data.visuals || []);
+
+
+      bodyHtml += `
+        <div class="meta-row">
+          <div class="meta-pill">Workflow: ${escapeHtml(workflow)}</div>
+          ${data.matched_file ? `<div class="meta-pill">Structured file: ${escapeHtml(data.matched_file)}</div>` : ""}
+          ${data.weakness_report?.summary ? `<div class="meta-pill">Weakness signals: ${escapeHtml(data.weakness_report.summary)}</div>` : ""}
+        </div>
+      `;
+
+      if (data.sources?.length || data.top_chunks?.length) {
+        bodyHtml += `
+          <details class="details-toggle">
+            <summary>View retrieved sources</summary>
+            ${data.sources?.length ? renderSources(data.sources) : ""}
+            ${data.top_chunks?.length ? renderTopChunks(data.top_chunks) : ""}
+          </details>
+        `;
+      }
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "message assistant";
+      wrapper.innerHTML = `
+        <div class="avatar assistant">●</div>
+        <div class="bubble">${bodyHtml}</div>
+      `;
+
+      messagesEl.appendChild(wrapper);
+      scrollToBottom();
+    }
+
+    // 🔥 ADD THIS FUNCTION
+async function uploadFile() {
+  const fileInput = document.getElementById("fileInput");
+  const file = fileInput.files[0];
+
+  if (!file) {
+    alert("Please choose a file first.");
+    return;
+  }
+
+  addUserMessage(`Uploaded file: ${file.name}`);
+  addTypingMessage();
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const imageTypes = ["image/jpeg", "image/png", "image/jpg"];
+
+  const endpoint = imageTypes.includes(file.type)
+    ? "http://localhost:3000/image/analyse"
+    : "http://localhost:3000/upload";
+
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || data.details || "Upload failed");
+    }
+
+    removeTypingMessage();
+
+    addAssistantMessage({
+      answer:
+        data.analysis ||
+        data.message ||
+        `File uploaded successfully: ${file.name}`,
+      workflow: imageTypes.includes(file.type) ? "image-analysis" : "upload",
+      sources: [],
+      top_chunks: [],
+      weakness_report: data.weakness_report || null,
+    });
+
+    fileInput.value = "";
+  } catch (error) {
+    console.error("Upload error:", error);
+    removeTypingMessage();
+
+    addAssistantMessage({
+      answer: `Upload failed: ${error.message}`,
+      workflow: "error",
+      sources: [],
+      top_chunks: [],
+    });
+  }
+}
+
+
+    async function askQuestion() {
+      const question = questionInput.value.trim();
+      const fileInput = document.getElementById("fileInput");
+      const file = fileInput.files[0];
+
+      if (!question && !file) return;
+      
+      const imageTypes = ["image/jpeg", "image/png", "image/jpg"];
+
+      addUserMessage(
+        file
+          ? `${question || "Please analyse this image."}\n\nAttached file: ${file.name}`
+          : question
+      );
+
+      questionInput.value = "";
+      sendBtn.disabled = true;
+      addTypingMessage();
+
+      try {
+        let response;
+
+        if (file && imageTypes.includes(file.type)) {
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("question", question || "Please analyse this image.");
+
+          response = await fetch("http://localhost:3000/image/analyse", {
+            method: "POST",
+            body: formData,
+          });
+        } else if (file) {
+          const formData = new FormData();
+          formData.append("file", file);
+
+          response = await fetch("http://localhost:3000/upload", {
+            method: "POST",
+            body: formData,
+          });
+        } else {
+          response = await fetch("http://localhost:3000/chat", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ question }),
+          });
+        }
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || data.details || "Backend error");
+        }
+
+        removeTypingMessage();
+
+        addAssistantMessage({
+          answer:
+            data.analysis ||
+            data.answer ||
+            data.message ||
+            "Done.",
+          workflow:
+            file && imageTypes.includes(file.type)
+              ? "image-question"
+              : file
+              ? "upload"
+              : data.workflow || "chat",
+          sources: data.sources || [],
+          top_chunks: data.top_chunks || [],
+          weakness_report: data.weakness_report || null,
+          coaching_answer: data.coaching_answer || null,
+          matched_file: data.matched_file || null,
+          visuals: data.visuals || [],
+        });
+
+        fileInput.value = "";
+      } catch (error) {
+        console.error("Frontend error:", error);
+        removeTypingMessage();
+
+        addAssistantMessage({
+          answer: `Something went wrong: ${error.message}`,
+          workflow: "error",
+          sources: [],
+          top_chunks: [],
+        });
+      } finally {
+        sendBtn.disabled = false;
+        questionInput.focus();
+      }
+    }
+
+    function fillAndAsk(text) {
+      questionInput.value = text;
+      askQuestion();
+    }
+
+    questionInput.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        askQuestion();
+      }
+    });
+
+    scrollToBottom();
+  </script>
+</body>
+</html>

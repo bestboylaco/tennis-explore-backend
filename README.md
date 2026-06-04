@@ -1,4 +1,29 @@
 # TennisExplore – Phase 1 MVP
+![Status](https://img.shields.io/badge/Status-Phase%201%20MVP-green)
+![Node.js](https://img.shields.io/badge/Backend-Node.js-brightgreen)
+![Qdrant](https://img.shields.io/badge/VectorDB-Qdrant-blue)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-green)
+AI-powered tennis performance intelligence platform developed in collaboration with Tennis Australia.
+
+The platform explores how Retrieval-Augmented Generation (RAG), semantic search, and conversational AI can help coaches and performance staff retrieve information from multiple documents through a unified interface.
+
+---
+
+## Current MVP Features
+
+- Document upload and ingestion
+- Text extraction and preprocessing
+- Document chunking and embedding generation
+- Semantic retrieval using Qdrant
+- AI-assisted question answering
+- Retrieval-Augmented Generation (RAG)
+- Web-based interaction interface
+- Foundational coaching and analysis workflows
+
+
+
+
+# TennisExplore – Phase 1 MVP
 
 TennisExplore is a Phase 1 MVP prototype developed for Tennis Australia–QLD.  
 The system explores how AI-assisted retrieval and chatbot interaction can help coaches and staff access tennis performance information from uploaded documents.

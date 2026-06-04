@@ -8,21 +8,6 @@ AI-powered tennis performance intelligence platform developed in collaboration w
 The platform explores how Retrieval-Augmented Generation (RAG), semantic search, and conversational AI can help coaches and performance staff retrieve information from multiple documents through a unified interface.
 
 ---
-
-## Current MVP Features
-
-- Document upload and ingestion
-- Text extraction and preprocessing
-- Document chunking and embedding generation
-- Semantic retrieval using Qdrant
-- AI-assisted question answering
-- Retrieval-Augmented Generation (RAG)
-- Web-based interaction interface
-- Foundational coaching and analysis workflows
-
-
-
-
 # TennisExplore – Phase 1 MVP
 
 TennisExplore is a Phase 1 MVP prototype developed for Tennis Australia–QLD.  
@@ -35,15 +20,18 @@ MONGODB_URI=your_mongodb_connection_string
 QDRANT_URL=http://localhost:6333
 TEXT_MODEL=phi3
 VISION_MODEL=llama3.2-vision:11b
+
 ## Current MVP Features
 
-- Document upload and processing
-- Text extraction and cleaning
-- Chunking and embedding generation
-- Vector search using Qdrant
-- AI-assisted chatbot interaction
-- Basic tennis knowledge retrieval
-- Backend API for upload and chat workflows
+- Document upload and ingestion
+- Text extraction and preprocessing
+- Document chunking and embedding generation
+- Semantic retrieval using Qdrant
+- AI-assisted question answering
+- Retrieval-Augmented Generation (RAG)
+- Web-based interaction interface
+- Foundational coaching and analysis workflows
+
 - ## Current MVP Limitations
 
 - The system is currently configured for local development.
@@ -51,6 +39,31 @@ VISION_MODEL=llama3.2-vision:11b
 - Environment variables are required to connect to MongoDB, Qdrant, and local AI models.
 - Some advanced performance intelligence features are planned for Phase 2.
 - The MVP focuses on demonstrating document ingestion, retrieval, and AI-assisted querying.
+
+
+
+## Future Development
+
+Potential future enhancements include:
+
+- Advanced player intelligence
+- Improved evidence-based coaching recommendations
+- Enhanced analytics and visualisation
+- Expanded data integration capabilities
+- Improved retrieval accuracy and reasoning
+- Production deployment and scalability improvements
+## Team
+
+Cloud Axis – Group 58
+
+- Duy Nguyen
+- Jiadi Li
+- Zaina Ilyas
+- Chatchai Chaiyadech
+- Kao-Ho Liu
+
+Industry Partner:
+Tennis Australia – Queensland
 
 ## Repository Layout
 

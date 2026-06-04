@@ -6,20 +6,19 @@
 AI-powered tennis performance intelligence platform developed in collaboration with Tennis Australia.
 
 The platform explores how Retrieval-Augmented Generation (RAG), semantic search, and conversational AI can help coaches and performance staff retrieve information from multiple documents through a unified interface.
-
 ---
-# TennisExplore – Phase 1 MVP
 
-TennisExplore is a Phase 1 MVP prototype developed for Tennis Australia–QLD.  
-The system explores how AI-assisted retrieval and chatbot interaction can help coaches and staff access tennis performance information from uploaded documents.
-The .env file is not included in GitHub for security reasons.
-Users must create their own .env file before running the project locally.
-NOTE:
-PORT=3000
-MONGODB_URI=your_mongodb_connection_string
-QDRANT_URL=http://localhost:6333
-TEXT_MODEL=phi3
-VISION_MODEL=llama3.2-vision:11b
+## Problem
+
+High-performance tennis environments generate large volumes of information across coaching notes, reports, performance reviews, match analysis, and other documents.
+
+Finding relevant information often requires manually searching through multiple sources, making the process time-consuming and inefficient.
+
+## Solution
+
+TennisExplore provides an AI-assisted retrieval platform that enables users to ask questions in natural language and receive contextual responses grounded in uploaded documents.
+
+The system combines semantic search, Retrieval-Augmented Generation (RAG), and conversational AI to make tennis knowledge more accessible and easier to interpret.
 
 ## Current MVP Features
 
@@ -31,7 +30,27 @@ VISION_MODEL=llama3.2-vision:11b
 - Retrieval-Augmented Generation (RAG)
 - Web-based interaction interface
 - Foundational coaching and analysis workflows
+## Technology Stack
 
+### Backend
+- Node.js
+- Express.js
+
+### Database
+- MongoDB Atlas
+- Qdrant Vector Database
+
+### AI
+- Ollama
+- Retrieval-Augmented Generation (RAG)
+- Semantic Search
+
+### Storage
+- AWS S3
+
+### Deployment
+- Docker
+- 
 - ## Current MVP Limitations
 
 - The system is currently configured for local development.

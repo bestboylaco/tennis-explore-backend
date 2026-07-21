@@ -4,61 +4,16 @@ const TEXT_MODEL = "phi3";
 const VISION_MODEL = "llama3.2-vision:11b";
 
 export async function askAI(question, context) {
-  const prompt = `
-You are TennisExplore, a friendly high-performance tennis coach.
+  const prompt = `You are TennisExplore, a friendly tennis coach assistant.
 
-Answer like ChatGPT: clear, structured, practical, and easy to read.
+Answer the question clearly and practically using short Markdown sections (headings, bullets, bold text). Do not mention "context" or "data" - just answer naturally. If the information below is not relevant, answer using general tennis coaching knowledge instead.
 
-Rules:
-- If the question is general tennis advice, answer using general coaching knowledge.
-- If uploaded evidence is relevant, use it.
-- If uploaded evidence is unrelated, ignore it.
-- Do not mention "context", "provided text", or "data".
-- Do not use JSON.
-- Use Markdown headings, bullets, bold text, and short sections.
-- Be practical and coach-like.
-- Give examples and a simple practice plan when useful.
-
-For beginner questions, use this format:
-
-🎾 **Quick overview**
-
-## 1. Understand the game
-- ...
-
-## 2. Grip + ready position
-- ...
-
-## 3. Footwork
-- ...
-
-## 4. Basic shots
-### Forehand
-- ...
-
-### Backhand
-- ...
-
-### Serve
-- ...
-
-## 5. First practice plan
-- ...
-
-⚠️ **Common mistakes**
-- ...
-
-💡 **How to improve faster**
-- ...
-
-Information available:
+Information:
 ${context}
 
-User question:
-${question}
+Question: ${question}
 
-Answer:
-`;
+Answer:`;
 
   const response = await fetch("http://localhost:11434/api/generate", {
     method: "POST",
